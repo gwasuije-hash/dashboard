@@ -291,13 +291,17 @@ html,body{min-height:100vh;background:var(--bg0);color:var(--t1);font-family:'Ma
   }
 }
 @media (max-width:768px){
+
   .kpi-row{
-    grid-template-columns:1fr !important;
+    display:flex !important;
+    flex-direction:column !important;
   }
 
   .kpi{
-    margin-bottom:10px;
+    width:100% !important;
+    margin-bottom:12px;
   }
+
 }
 </style>
 </head>
