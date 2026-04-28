@@ -24,6 +24,7 @@ body{
 .dh-title{
   font-size:20px;
   font-weight:800;
+  line-height:1.4;
 }
 
 /* ===== KPI ===== */
@@ -53,68 +54,36 @@ body{
   border-radius:10px;
 }
 
-/* ===== TABLE ===== */
-.tbl{
-  width:100%;
-  border-collapse:collapse;
-}
-
-.tbl td{
-  padding:6px;
-  border-bottom:1px solid #222;
-}
-
 /* ===================== */
-/* 🔥 모바일 최적화 핵심 */
+/* 🔥 모바일 최적화 */
 /* ===================== */
 @media (max-width:768px){
 
-  /* 업로드 박스 제거 */
-  #upload-bar{
-    display:none !important;
-  }
-
-  /* 전체 패딩 줄이기 */
   #dash-header{
     padding:14px;
   }
 
-  /* 제목 줄바꿈 */
   .dh-title{
     font-size:18px;
-    line-height:1.4;
   }
 
-  /* KPI → 1열 */
+  /* KPI 세로 */
   .kpi-row{
     grid-template-columns:1fr;
     padding:14px;
-  }
-
-  .kpi{
-    width:100%;
   }
 
   .kpi-val{
     font-size:26px;
   }
 
-  /* 카드 */
   .card{
     margin:14px;
   }
 
-  /* 그래프 */
   canvas{
     width:100% !important;
     height:220px !important;
-  }
-
-  /* 테이블 가로스크롤 */
-  .tbl{
-    display:block;
-    overflow-x:auto;
-    white-space:nowrap;
   }
 }
 </style>
@@ -146,9 +115,19 @@ new Chart(document.getElementById('chart'),{
   data:{
     labels:['조은장터','케이푸드'],
     datasets:[
-      {label:'25년',data:[219,67]},
-      {label:'26년',data:[178,44]}
+      {label:'25년',data:[219,67], backgroundColor:'#4fc3f7'},
+      {label:'26년',data:[178,44], backgroundColor:'#ff7043'}
     ]
+  },
+  options:{
+    responsive:true,
+    plugins:{
+      legend:{labels:{color:'#fff'}}
+    },
+    scales:{
+      x:{ticks:{color:'#fff'}},
+      y:{ticks:{color:'#fff'}}
+    }
   }
 });
 </script>
