@@ -388,6 +388,19 @@ html,body{min-height:100vh;background:var(--bg0);color:var(--t1);font-family:'Ma
     display: none !important;
   }
 }
+    /* 🔥 모바일 완전 강제 숨김 */
+@media (max-width: 768px) {
+
+  /* 업로드 바 강제 제거 */
+  #upload-bar,
+  div[id="upload-bar"],
+  div[onclick*="erp-file"] {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+}
 </style>
 </head>
 <body>
