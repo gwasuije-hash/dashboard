@@ -3,828 +3,155 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>26년 1분기 매출현황 — 통합 경영 대시보드</title>
+<title>매출 대시보드</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg0:#0a0e1a;--bg1:#0d1220;--bg2:#131a2a;--bg3:#182033;--bg4:#1d2840;
-  --bd:#1e2d45;--bd2:#253550;
-  --t1:#eef2ff;--t2:#8899cc;--t3:#4a5a7a;--t4:#2a3550;
-  --red:#f87171;--amber:#fbbf24;--green:#34d399;--blue:#60a5fa;
-  --purple:#a78bfa;--cyan:#22d3ee;--teal:#2dd4bf;--orange:#fb923c;
-  --red-bg:#2d1111;--amber-bg:#2d1a07;--green-bg:#0a2d1f;--blue-bg:#0d1f3a;
-}
-html,body{min-height:100vh;background:var(--bg0);color:var(--t1);font-family:'Malgun Gothic','Apple SD Gothic Neo','Segoe UI',sans-serif;font-size:13px;}
 
-/* ── UPLOAD BAR ── */
-#upload-bar{
-  margin:14px 20px 0;
-  background:var(--bg2);
-  border:1.5px dashed var(--bd2);
-  border-radius:10px;
-  padding:12px 16px;
-  display:flex;align-items:center;gap:14px;
-  cursor:pointer;
-  transition:border-color .2s,background .2s;
+body{
+  background:#0a0e1a;
+  color:#fff;
+  font-family:'Malgun Gothic','Segoe UI',sans-serif;
 }
-#upload-bar:hover{border-color:var(--cyan);}
-#upload-bar.drag{border-color:var(--cyan);background:var(--bg3);}
-#upload-bar.done{border-style:solid;border-color:#1d4a40;background:#0a1f18;}
-.ub-icon{width:38px;height:38px;background:var(--bg4);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ub-texts{flex:1;min-width:0;}
-.ub-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px;}
-.ub-sub{font-size:11px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ub-btns{display:flex;gap:8px;flex-shrink:0;}
-.btn{padding:7px 15px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:opacity .15s;}
-.btn:hover{opacity:.85;}
-.btn-sec{background:var(--bg4);color:var(--t2);border:1px solid var(--bd2);}
-.btn-pri{background:var(--cyan);color:#000;}
-.btn-grn{background:var(--green);color:#000;}
 
-/* ── HEADER ── */
+/* ===== HEADER ===== */
 #dash-header{
-  display:flex;justify-content:space-between;align-items:flex-end;
-  padding:14px 20px 0;
+  padding:20px;
 }
-.dh-left .dh-title{font-size:19px;font-weight:800;color:var(--t1);margin-bottom:3px;}
-.dh-left .dh-sub{font-size:11px;color:var(--t3);display:flex;gap:8px;align-items:center;}
-.dh-sub .dot{color:var(--bd2);}
-.dh-right{text-align:right;font-size:10px;color:var(--t4);line-height:1.6;}
-.dh-right .hi{color:var(--cyan);}
 
-/* ── TABS ── */
-#tabs{display:flex;gap:2px;padding:12px 20px 0;border-bottom:1px solid var(--bd);}
-.tab{padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--t3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;}
-.tab.on{color:var(--cyan);border-bottom-color:var(--cyan);}
-.tab:hover:not(.on){color:var(--t2);}
+.dh-title{
+  font-size:20px;
+  font-weight:800;
+}
 
-/* ── BODY ── */
-#body{padding:16px 20px 28px;}
-.pg{display:none;}
-.pg.on{display:block;}
+/* ===== KPI ===== */
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  padding:20px;
+}
 
-/* ── KPI ── */
-.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;}
-.kpi{background:var(--bg2);border:1px solid var(--bd);border-radius:9px;padding:14px 16px;position:relative;overflow:hidden;}
-.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.kpi.c-blue::after{background:var(--blue);}
-.kpi.c-purple::after{background:var(--purple);}
-.kpi.c-amber::after{background:var(--amber);}
-.kpi.c-red::after{background:var(--red);}
-.kpi.c-green::after{background:var(--green);}
-.kpi-lbl{font-size:10px;color:var(--t3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;}
-.kpi-val{font-size:23px;font-weight:800;line-height:1;margin-bottom:4px;}
-.kpi-det{font-size:10px;color:var(--t4);margin-bottom:6px;}
-.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;}
-.badge-dn{background:var(--red-bg);color:var(--red);}
-.badge-up{background:var(--green-bg);color:var(--green);}
-.badge-warn{background:var(--amber-bg);color:var(--amber);}
-.badge-info{background:var(--blue-bg);color:var(--blue);}
+.kpi{
+  background:#131a2a;
+  padding:16px;
+  border-radius:10px;
+}
 
-/* ── LAYOUT ── */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
-.gW{display:grid;grid-template-columns:3fr 2fr;gap:12px;margin-bottom:12px;}
-.card{background:var(--bg2);border:1px solid var(--bd);border-radius:9px;padding:14px 16px;}
-.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.card-ttl{font-size:11px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
-.card-tag{font-size:9px;padding:3px 8px;border-radius:4px;background:var(--bg4);color:var(--t3);border:1px solid var(--bd2);}
-.sec-lbl{font-size:10px;color:var(--t4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--bd);}
+.kpi-val{
+  font-size:24px;
+  font-weight:800;
+}
 
-/* ── CHART LEGEND ── */
-.legend{display:flex;gap:12px;font-size:10px;color:var(--t3);}
-.legend span{display:flex;align-items:center;gap:5px;}
-.legend i{width:9px;height:9px;border-radius:2px;display:inline-block;}
+/* ===== CARD ===== */
+.card{
+  background:#131a2a;
+  margin:20px;
+  padding:16px;
+  border-radius:10px;
+}
 
-/* ── TABLE ── */
-.tbl{width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed;}
-.tbl th{color:var(--t4);font-weight:500;padding:5px 8px;border-bottom:1px solid var(--bd);text-align:right;font-size:10px;text-transform:uppercase;}
-.tbl th:first-child,.tbl th:nth-child(2){text-align:left;}
-.tbl td{padding:6px 8px;border-bottom:1px solid #090e1a;text-align:right;color:var(--t2);}
-.tbl td:first-child{color:var(--t1);text-align:left;}
-.tbl td:nth-child(2){text-align:left;}
-.tbl tr.sub td{color:var(--t3);font-size:10.5px;}
-.tbl tr.tot td{color:var(--t1);font-weight:700;border-top:1px solid var(--bd2);}
-.neg{color:var(--red)!important;}
-.pos{color:var(--green)!important;}
+/* ===== TABLE ===== */
+.tbl{
+  width:100%;
+  border-collapse:collapse;
+}
 
-/* ── MONTH BARS ── */
-.mbar{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
-.mbar-lbl{width:24px;font-size:11px;color:var(--t3);flex-shrink:0;}
-.mbar-track{flex:1;background:var(--bg4);border-radius:4px;height:22px;overflow:hidden;}
-.mbar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:700;transition:width .8s cubic-bezier(.4,0,.2,1);}
-.mbar-badge{width:60px;text-align:right;font-size:11px;font-weight:700;flex-shrink:0;}
+.tbl td{
+  padding:6px;
+  border-bottom:1px solid #222;
+}
 
-/* ── INSIGHT ── */
-.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-.ins{background:var(--bg2);border:1px solid var(--bd);border-radius:9px;padding:13px 14px;}
-.ins.danger{border-left:3px solid var(--red);border-radius:0 9px 9px 0;}
-.ins.warn{border-left:3px solid var(--amber);border-radius:0 9px 9px 0;}
-.ins.good{border-left:3px solid var(--green);border-radius:0 9px 9px 0;}
-.ins.info{border-left:3px solid var(--purple);border-radius:0 9px 9px 0;}
-.ins-tag{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
-.ins-tag.danger{color:var(--red);}
-.ins-tag.warn{color:var(--amber);}
-.ins-tag.good{color:var(--green);}
-.ins-tag.info{color:var(--purple);}
-.ins-num{font-size:20px;font-weight:800;margin-bottom:3px;}
-.ins-ttl{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:5px;line-height:1.4;}
-.ins-body{font-size:10.5px;color:var(--t3);line-height:1.65;}
+/* ===================== */
+/* 🔥 모바일 최적화 핵심 */
+/* ===================== */
+@media (max-width:768px){
 
-/* ── ACTION ── */
-.act-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
-.act{background:var(--bg2);border:1px solid var(--bd);border-radius:9px;padding:13px;}
-.act-n{width:21px;height:21px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;margin-bottom:8px;}
-.act-n.r{background:var(--red-bg);color:var(--red);}
-.act-n.a{background:var(--amber-bg);color:var(--amber);}
-.act-n.g{background:var(--green-bg);color:var(--green);}
-.act-ttl{font-size:11.5px;font-weight:700;color:var(--t1);margin-bottom:4px;}
-.act-body{font-size:10.5px;color:var(--t3);line-height:1.55;}
-
-/* ── RISK ── */
-.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.risk{background:var(--bg2);border:1px solid var(--bd);border-radius:9px;padding:13px 14px;}
-.rb-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--t3);margin-bottom:5px;}
-.rb-track{background:var(--bg0);border-radius:3px;height:5px;margin-bottom:10px;}
-.rb-fill{height:5px;border-radius:3px;}
-
-/* ── NOTE ── */
-.note{background:var(--bg2);border:1px solid var(--bd);border-left:3px solid var(--amber);border-radius:0 9px 9px 0;padding:11px 14px;font-size:11px;color:var(--t2);line-height:1.7;margin-bottom:12px;}
-
-/* ── FILE STATUS TOAST ── */
-#toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--bd2);border-radius:9px;padding:12px 16px;font-size:12px;color:var(--t1);display:none;gap:10px;align-items:center;z-index:999;box-shadow:0 4px 24px rgba(0,0,0,.5);}
-#toast.show{display:flex;}
-  /* 🔥 모바일 최적화 */
-@media (max-width: 768px) {
-
-  body {
-    overflow-x: hidden;
-  }
-
-  /* 전체 레이아웃 1열 */
-  .grid,
-  .cards,
-  .summary-grid,
-  .chart-grid,
-  .insight-grid,
-  .kpi-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-  }
-
-  /* 카드 꽉 차게 */
-  .card,
-  .panel,
-  .chart-card,
-  .insight-card,
-  .kpi-card {
-    width: 100% !important;
-    min-width: 0 !important;
-  }
-
-  /* 제목 크기 */
-  h1 {
-    font-size: 20px !important;
-    line-height: 1.3 !important;
-  }
-
-  h2, h3 {
-    font-size: 16px !important;
+  /* 업로드 박스 제거 */
+  #upload-bar{
+    display:none !important;
   }
 
   /* 전체 패딩 줄이기 */
-  .container,
-  .dashboard,
-  main {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 12px !important;
+  #dash-header{
+    padding:14px;
+  }
+
+  /* 제목 줄바꿈 */
+  .dh-title{
+    font-size:18px;
+    line-height:1.4;
+  }
+
+  /* KPI → 1열 */
+  .kpi-row{
+    grid-template-columns:1fr;
+    padding:14px;
+  }
+
+  .kpi{
+    width:100%;
+  }
+
+  .kpi-val{
+    font-size:26px;
+  }
+
+  /* 카드 */
+  .card{
+    margin:14px;
   }
 
   /* 그래프 */
-  canvas,
-  svg {
-    max-width: 100% !important;
-    height: auto !important;
+  canvas{
+    width:100% !important;
+    height:220px !important;
   }
 
-  /* 테이블 가로 스크롤 */
-  table {
-    font-size: 12px !important;
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+  /* 테이블 가로스크롤 */
+  .tbl{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
   }
-
-  /* 버튼 */
-  button {
-   /* 모바일 UI 최적화 v4 */
-@media (max-width: 768px) {
-
-  html, body {
-    width: 100% !important;
-    overflow-x: hidden !important;
-    font-size: 12px !important;
-  }
-
-  body {
-    padding: 0 !important;
-  }
-
-  /* 업로드 박스 */
-  #upload-bar {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 10px !important;
-    padding: 14px !important;
-    margin: 10px !important;
-  }
-
-  .ub-icon {
-    display: none !important;
-  }
-
-  .ub-title {
-    font-size: 14px !important;
-    line-height: 1.4 !important;
-    white-space: normal !important;
-  }
-
-  .ub-sub {
-    font-size: 11px !important;
-    line-height: 1.4 !important;
-  }
-
-  .ub-btns {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
-    width: 100% !important;
-  }
-
-  .btn {
-    width: 100% !important;
-    font-size: 12px !important;
-    padding: 10px !important;
-  }
-
-  /* 전체 레이아웃 */
-  header, .container, main {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 12px !important;
-  }
-
-  h1 {
-    font-size: 18px !important;
-    line-height: 1.3 !important;
-  }
-
-  /* 탭 */
-  .tabs {
-    display: flex !important;
-    overflow-x: auto !important;
-    gap: 14px !important;
-  }
-
-  /* KPI 카드 → 1열 */
-  .kpi-row, .cards, .grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-  }
-
-  .kpi-card {
-    width: 100% !important;
-    padding: 14px !important;
-  }
-
-  .value {
-    font-size: 24px !important;
-  }
-
-  /* 그래프 */
-  canvas {
-    width: 100% !important;
-    height: 240px !important;
-  }
-
-  /* 테이블 */
-  table {
-    display: block !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    font-size: 12px !important;
-  }
-}
-    /* 🔥 모바일 강제 덮어쓰기 */
-@media (max-width: 768px) {
-
-  /* 전체 강제 초기화 */
-  * {
-    box-sizing: border-box !important;
-  }
-
-  body {
-    overflow-x: hidden !important;
-  }
-
-  /* 🔥 KPI 카드 강제 세로 정렬 */
-  .kpi-row,
-  .cards,
-  .grid,
-  div[style*="grid"],
-  div[style*="flex"] {
-    display: block !important;
-  }
-
-  /* 카드 전부 풀폭 */
-  .kpi-card,
-  .card,
-  div[class*="card"] {
-    width: 100% !important;
-    margin-bottom: 12px !important;
-  }
-
-  /* 숫자 크게 */
-  .value {
-    font-size: 22px !important;
-  }
-
-  /* 🔥 업로드 박스 강제 수정 */
-  #upload-bar {
-    display: block !important;
-    padding: 12px !important;
-  }
-
-  .ub-title,
-  .ub-sub {
-    writing-mode: horizontal-tb !important;
-    white-space: normal !important;
-  }
-
-  /* 버튼 */
-  .ub-btns {
-    display: flex !important;
-    gap: 8px !important;
-  }
-
-  .btn {
-    flex: 1 !important;
-  }
-
-  /* 그래프 */
-  canvas {
-    width: 100% !important;
-    height: 220px !important;
-  }
-}
-    /* 모바일에서 업로드 박스 숨김 */
-@media (max-width: 768px) {
-  #upload-bar {
-    display: none !important;
-  }
-}
-    /* 🔥 모바일 완전 강제 숨김 */
-@media (max-width: 768px) {
-
-  /* 업로드 바 강제 제거 */
-  #upload-bar,
-  div[id="upload-bar"],
-  div[onclick*="erp-file"] {
-    display: none !important;
-    height: 0 !important;
-    overflow: hidden !important;
-  }
-
 }
 </style>
 </head>
+
 <body>
 
-<!-- ════ UPLOAD BAR ════ -->
-<div id="upload-bar" onclick="document.getElementById('erp-file').click()">
-  <div class="ub-icon">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.5">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-      <polyline points="17 8 12 3 7 8"/>
-      <line x1="12" y1="3" x2="12" y2="15"/>
-    </svg>
-  </div>
-  <div class="ub-texts">
-    <div class="ub-title">더존 ERP 엑셀 업로드</div>
-    <div class="ub-sub" id="ub-sub-txt">품목별이익현황 파일(.xlsx)을 올리면 자동으로 반영됩니다</div>
-  </div>
-  <div class="ub-btns">
-    <button class="btn btn-sec" onclick="event.stopPropagation();loadSample()">1분기 데이터 로드</button>
-    <button class="btn btn-pri" onclick="event.stopPropagation();document.getElementById('erp-file').click()">파일 선택</button>
-  </div>
-  <input type="file" id="erp-file" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFile(this.files[0])">
-</div>
-
-<!-- ════ HEADER ════ -->
 <div id="dash-header">
-  <div class="dh-left">
-    <div class="dh-title">26년 1분기 매출현황 — 통합 경영 대시보드</div>
-    <div class="dh-sub">
-      <span>2026년 1분기 (01/01 ~ 03/31)</span>
-      <span class="dot">·</span>
-      <span>조은장터 + 케이푸드 통합 현황</span>
-      <span class="dot">·</span>
-      <span>금액 단위: 천원</span>
-    </div>
-  </div>
-  <div class="dh-right">
-    <div><span class="hi">더존 ERP</span></div>
-    <div>기준일 · 2026.04.23</div>
+  <div class="dh-title">
+    26년 1분기 매출현황 — 통합 경영 대시보드
   </div>
 </div>
 
-<!-- ════ TABS ════ -->
-<div id="tabs">
-  <button class="tab on" data-pg="overview">개요</button>
-  <button class="tab" data-pg="channel">채널 분석</button>
-  <button class="tab" data-pg="insight">경영 인사이트</button>
+<div class="kpi-row">
+  <div class="kpi"><div>전체 매출</div><div class="kpi-val">222억</div></div>
+  <div class="kpi"><div>조은장터</div><div class="kpi-val">178억</div></div>
+  <div class="kpi"><div>케이푸드</div><div class="kpi-val">44억</div></div>
+  <div class="kpi"><div>감소</div><div class="kpi-val">-63억</div></div>
+  <div class="kpi"><div>성장</div><div class="kpi-val">+51%</div></div>
 </div>
 
-<!-- ════ BODY ════ -->
-<div id="body">
-
-<!-- ── PAGE: 개요 ── -->
-<div id="pg-overview" class="pg on">
-
-  <div class="kpi-row">
-    <div class="kpi c-blue">
-      <div class="kpi-lbl">전체 매출 (26년 1Q)</div>
-      <div class="kpi-val" style="color:var(--blue)">222억</div>
-      <div class="kpi-det">22,240,311천원</div>
-      <div class="badge badge-dn">▼ 22.2% vs 25년</div>
-    </div>
-    <div class="kpi c-purple">
-      <div class="kpi-lbl">조은장터</div>
-      <div class="kpi-val" style="color:var(--purple)">178억</div>
-      <div class="kpi-det">17,807,820천원</div>
-      <div class="badge badge-dn">▼ 18.7%</div>
-    </div>
-    <div class="kpi c-amber">
-      <div class="kpi-lbl">케이푸드</div>
-      <div class="kpi-val" style="color:var(--amber)">44억</div>
-      <div class="kpi-det">4,432,491천원</div>
-      <div class="badge badge-dn">▼ 33.7%</div>
-    </div>
-    <div class="kpi c-red">
-      <div class="kpi-lbl">전체 감소액</div>
-      <div class="kpi-val" style="color:var(--red)">-63억</div>
-      <div class="kpi-det">-6,354,270천원</div>
-      <div class="badge badge-warn">이란전쟁 영향</div>
-    </div>
-    <div class="kpi c-green">
-      <div class="kpi-lbl">스마트스토어 성장</div>
-      <div class="kpi-val" style="color:var(--green)">+51.8%</div>
-      <div class="kpi-det">20억 → 31억</div>
-      <div class="badge badge-up">▲ 유일 성장 채널</div>
-    </div>
-  </div>
-
-  <div class="gW">
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-ttl">회사별 매출 비교 (25년 vs 26년)</div>
-        <div class="legend">
-          <span><i style="background:#4f46e5"></i>25년</span>
-          <span><i style="background:#22d3ee"></i>26년</span>
-        </div>
-      </div>
-      <div style="position:relative;height:190px">
-        <canvas id="c-company" role="img" aria-label="회사별 매출 비교 막대 차트">조은장터 25년 219억 26년 178억. 케이푸드 25년 67억 26년 44억.</canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hdr"><div class="card-ttl">26년 매출 구성</div></div>
-      <div style="position:relative;height:150px">
-        <canvas id="c-pie" role="img" aria-label="매출 구성 도넛 차트">조은장터 80.1% 케이푸드 19.9%</canvas>
-      </div>
-      <div class="legend" style="margin-top:10px;justify-content:center">
-        <span><i style="border-radius:50%;background:#818cf8"></i>조은장터 80.1%</span>
-        <span><i style="border-radius:50%;background:#fb923c"></i>케이푸드 19.9%</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-bottom:12px">
-    <div class="card-hdr"><div class="card-ttl">회사별 매출 상세</div><div class="card-tag">단위: 천원</div></div>
-    <table class="tbl">
-      <thead><tr><th>회사</th><th>구분</th><th>25년</th><th>26년</th><th>증감</th><th>신장율</th></tr></thead>
-      <tbody>
-        <tr><td>조은장터</td><td>온라인</td><td>17,583,895</td><td>14,832,727</td><td class="neg">-2,751,168</td><td class="neg">-15.6%</td></tr>
-        <tr><td></td><td>오프라인</td><td>359,955</td><td>483,505</td><td class="pos">+123,550</td><td class="pos">+34.3%</td></tr>
-        <tr><td></td><td>관계사</td><td>3,965,299</td><td>2,491,588</td><td class="neg">-1,473,711</td><td class="neg">-37.2%</td></tr>
-        <tr class="sub"><td></td><td>소계</td><td>21,909,149</td><td>17,807,820</td><td class="neg">-4,101,329</td><td class="neg">-18.7%</td></tr>
-        <tr><td>케이푸드</td><td>온라인</td><td>3,825,232</td><td>2,504,209</td><td class="neg">-1,321,023</td><td class="neg">-34.5%</td></tr>
-        <tr><td></td><td>오프라인</td><td>2,050,145</td><td>1,896,922</td><td class="neg">-153,223</td><td class="neg">-7.5%</td></tr>
-        <tr><td></td><td>관계사</td><td>810,055</td><td>31,360</td><td class="neg">-778,695</td><td class="neg">-96.1%</td></tr>
-        <tr class="sub"><td></td><td>소계</td><td>6,685,432</td><td>4,432,491</td><td class="neg">-2,252,941</td><td class="neg">-33.7%</td></tr>
-        <tr class="tot"><td>합계</td><td></td><td>28,594,581</td><td>22,240,311</td><td class="neg">-6,354,270</td><td class="neg">-22.2%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="note">
-    * 26년 1분기 매출액은 25년 대비 <strong style="color:var(--red)">22.2% 감소</strong>.
-    이란전쟁 영향으로 물가·원가 상승, 긴축 운영이 절실함.
-    &nbsp;&nbsp;스마트스토어 채널은 <strong style="color:var(--green)">+51.8%</strong> 성장하며 유일한 긍정 신호.
-  </div>
-</div>
-
-<!-- ── PAGE: 채널 분석 ── -->
-<div id="pg-channel" class="pg">
-
-  <div class="kpi-row">
-    <div class="kpi c-blue"><div class="kpi-lbl">카카오</div><div class="kpi-val" style="color:var(--blue)">114억</div><div class="kpi-det">전체의 51.6%</div><div class="badge badge-dn">▼ 18.1%</div></div>
-    <div class="kpi c-green"><div class="kpi-lbl">스마트스토어</div><div class="kpi-val" style="color:var(--green)">31억</div><div class="kpi-det">전체의 13.7%</div><div class="badge badge-up">▲ 51.8%</div></div>
-    <div class="kpi c-red"><div class="kpi-lbl">쿠팡/호남미트</div><div class="kpi-val" style="color:var(--red)">24억</div><div class="kpi-det">전체의 10.7%</div><div class="badge badge-dn">▼ 50.1%</div></div>
-    <div class="kpi c-amber"><div class="kpi-lbl">자사몰</div><div class="kpi-val" style="color:var(--amber)">1.5억</div><div class="kpi-det">전체의 0.7%</div><div class="badge badge-dn">▼ 27.1%</div></div>
-    <div class="kpi c-purple"><div class="kpi-lbl">기타(오프·관계사)</div><div class="kpi-val" style="color:var(--purple)">52억</div><div class="kpi-det">전체의 23.3%</div><div class="badge badge-dn">▼ 31.9%</div></div>
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="card-hdr"><div class="card-ttl">채널별 신장율</div><div class="card-tag">%</div></div>
-      <div style="position:relative;height:210px">
-        <canvas id="c-growth" role="img" aria-label="채널별 신장율">스마트스토어 +51.8, 오프라인 +34.3, 카카오 -18.1, 자사몰 -27.1, 기타 -31.9, 쿠팡 -50.1</canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hdr"><div class="card-ttl">채널별 매출 구성 (26년)</div></div>
-      <div style="position:relative;height:170px">
-        <canvas id="c-ch-pie" role="img" aria-label="채널별 매출 구성 도넛">카카오 51.6% 스마트스토어 13.7% 쿠팡 10.7% 기타 23.3%</canvas>
-      </div>
-      <div class="legend" style="margin-top:10px;flex-wrap:wrap;gap:8px">
-        <span><i style="border-radius:50%;background:#6366f1"></i>카카오 51.6%</span>
-        <span><i style="border-radius:50%;background:#22d3ee"></i>스마트 13.7%</span>
-        <span><i style="border-radius:50%;background:#f59e0b"></i>쿠팡 10.7%</span>
-        <span><i style="border-radius:50%;background:#a78bfa"></i>기타 23.3%</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Month bars style for channel -->
-  <div class="card" style="margin-bottom:12px">
-    <div class="card-hdr"><div class="card-ttl">채널별 25년 vs 26년 매출 현황</div><div class="card-tag">단위: 천원</div></div>
-    <div style="margin-bottom:10px">
-      <div class="sec-lbl" style="margin-bottom:8px">조은장터</div>
-      <div class="mbar"><div class="mbar-lbl">카카오</div><div class="mbar-track"><div class="mbar-fill" style="width:100%;background:#4f46e5;color:#fff">9,442,825</div></div><div class="mbar-badge neg">-13.4%</div></div>
-      <div class="mbar"><div class="mbar-lbl">스마트</div><div class="mbar-track"><div class="mbar-fill" style="width:32%;background:#22d3ee;color:#000">3,053,454</div></div><div class="mbar-badge pos">+52.5%</div></div>
-      <div class="mbar"><div class="mbar-lbl">쿠팡</div><div class="mbar-track"><div class="mbar-fill" style="width:24%;background:#f59e0b;color:#000">2,222,545</div></div><div class="mbar-badge neg">-50.6%</div></div>
-      <div class="mbar"><div class="mbar-lbl">기타</div><div class="mbar-track"><div class="mbar-fill" style="width:33%;background:#64748b;color:#fff">3,088,892</div></div><div class="mbar-badge neg">-31.5%</div></div>
-    </div>
-    <div>
-      <div class="sec-lbl" style="margin-bottom:8px">케이푸드</div>
-      <div class="mbar"><div class="mbar-lbl">카카오</div><div class="mbar-track"><div class="mbar-fill" style="width:100%;background:#4f46e5;color:#fff">2,030,073</div></div><div class="mbar-badge neg">-34.5%</div></div>
-      <div class="mbar"><div class="mbar-lbl">스마트</div><div class="mbar-track"><div class="mbar-fill" style="width:1%;background:#22d3ee;color:#000"></div></div><div class="mbar-badge neg">-69.0%</div></div>
-      <div class="mbar"><div class="mbar-lbl">쿠팡</div><div class="mbar-track"><div class="mbar-fill" style="width:7%;background:#f59e0b;color:#000">152,449</div></div><div class="mbar-badge neg">-41.6%</div></div>
-      <div class="mbar"><div class="mbar-lbl">기타</div><div class="mbar-track"><div class="mbar-fill" style="width:100%;background:#64748b;color:#fff">2,098,394</div></div><div class="mbar-badge neg">-32.5%</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-hdr"><div class="card-ttl">채널별 상세 현황</div><div class="card-tag">단위: 천원</div></div>
-    <table class="tbl">
-      <thead><tr><th>채널</th><th>구분</th><th>25년</th><th>26년</th><th>증감</th><th>신장율</th></tr></thead>
-      <tbody>
-        <tr><td>카카오</td><td>조은장터</td><td>10,903,180</td><td>9,442,825</td><td class="neg">-1,460,355</td><td class="neg">-13.4%</td></tr>
-        <tr><td></td><td>케이푸드</td><td>3,099,369</td><td>2,030,073</td><td class="neg">-1,069,296</td><td class="neg">-34.5%</td></tr>
-        <tr class="sub"><td></td><td>소계</td><td>14,002,549</td><td>11,472,898</td><td class="neg">-2,529,651</td><td class="neg">-18.1%</td></tr>
-        <tr><td>스마트스토어</td><td>조은장터</td><td>2,001,934</td><td>3,053,454</td><td class="pos">+1,051,520</td><td class="pos">+52.5%</td></tr>
-        <tr><td></td><td>케이푸드</td><td>11,593</td><td>3,592</td><td class="neg">-8,001</td><td class="neg">-69.0%</td></tr>
-        <tr class="sub"><td></td><td>소계</td><td>2,013,527</td><td>3,057,046</td><td class="pos">+1,043,519</td><td class="pos">+51.8%</td></tr>
-        <tr><td>쿠팡/호남미트</td><td>조은장터</td><td>4,495,202</td><td>2,222,545</td><td class="neg">-2,272,657</td><td class="neg">-50.6%</td></tr>
-        <tr><td></td><td>케이푸드</td><td>261,027</td><td>152,449</td><td class="neg">-108,578</td><td class="neg">-41.6%</td></tr>
-        <tr class="sub"><td></td><td>소계</td><td>4,756,229</td><td>2,374,994</td><td class="neg">-2,381,235</td><td class="neg">-50.1%</td></tr>
-        <tr><td>자사몰</td><td>조은장터</td><td>359</td><td>104</td><td class="neg">-255</td><td class="neg">-71.0%</td></tr>
-        <tr><td></td><td>케이푸드</td><td>202,766</td><td>147,983</td><td class="neg">-54,783</td><td class="neg">-27.0%</td></tr>
-        <tr class="sub"><td></td><td>소계</td><td>203,125</td><td>148,087</td><td class="neg">-55,038</td><td class="neg">-27.1%</td></tr>
-        <tr><td>기타</td><td>조은장터</td><td>4,508,474</td><td>3,088,892</td><td class="neg">-1,419,582</td><td class="neg">-31.5%</td></tr>
-        <tr><td></td><td>케이푸드</td><td>3,110,677</td><td>2,098,394</td><td class="neg">-1,012,283</td><td class="neg">-32.5%</td></tr>
-        <tr class="sub"><td></td><td>소계</td><td>7,619,151</td><td>5,187,286</td><td class="neg">-2,431,865</td><td class="neg">-31.9%</td></tr>
-        <tr class="tot"><td>합계</td><td>전체</td><td>28,594,581</td><td>22,240,311</td><td class="neg">-6,354,270</td><td class="neg">-22.2%</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ── PAGE: 경영 인사이트 ── -->
-<div id="pg-insight" class="pg">
-
-  <div class="sec-lbl" style="margin-top:4px">위기 진단</div>
-  <div class="ins-grid">
-    <div class="ins danger">
-      <div class="ins-tag danger">긴급 경고</div>
-      <div class="ins-num" style="color:var(--red)">-22.2%</div>
-      <div class="ins-ttl">전체 매출 급락 — 전년 대비 63억 감소</div>
-      <div class="ins-body">285억 → 222억. 이란전쟁발 원자재 상승이 소비심리 위축으로 직결. 단순 계절 변동 아닌 구조적 위기 신호.</div>
-    </div>
-    <div class="ins danger">
-      <div class="ins-tag danger">케이푸드 위기</div>
-      <div class="ins-num" style="color:var(--red)">-96.1%</div>
-      <div class="ins-ttl">관계사 매출 사실상 소멸</div>
-      <div class="ins-body">케이푸드 관계사 810백만 → 31백만. B2B 거래처 이탈 원인 파악 및 재계약·신규 확보 시급.</div>
-    </div>
-    <div class="ins warn">
-      <div class="ins-tag warn">채널 집중 리스크</div>
-      <div class="ins-num" style="color:var(--amber)">51.6%</div>
-      <div class="ins-ttl">카카오 단일 채널 과의존</div>
-      <div class="ins-body">카카오가 전체의 절반 이상. 정책 변화 시 치명적 타격 가능. 채널 다각화 중기 전략 필수.</div>
-    </div>
-    <div class="ins warn">
-      <div class="ins-tag warn">쿠팡 급락</div>
-      <div class="ins-num" style="color:var(--amber)">-50.1%</div>
-      <div class="ins-ttl">쿠팡/호남미트 채널 반토막</div>
-      <div class="ins-body">47억 → 24억, 21억 급감. 수수료·정책 변화 또는 경쟁 심화 여부 점검. 원인 분리 분석 필수.</div>
-    </div>
-  </div>
-
-  <div class="sec-lbl">기회 신호</div>
-  <div class="ins-grid" style="margin-bottom:14px">
-    <div class="ins good">
-      <div class="ins-tag good">유일한 성장 채널</div>
-      <div class="ins-num" style="color:var(--green)">+51.8%</div>
-      <div class="ins-ttl">스마트스토어 — 침체 속 역성장</div>
-      <div class="ins-body">20억 → 31억. 검색 기반 자연 유입 강세. 예산·SKU 확대로 성장 모멘텀 극대화 필요.</div>
-    </div>
-    <div class="ins info">
-      <div class="ins-tag info">오프라인 방어</div>
-      <div class="ins-num" style="color:var(--purple)">+34.3%</div>
-      <div class="ins-ttl">조은장터 오프라인 가격 저항력 확인</div>
-      <div class="ins-body">3.6억 → 4.8억. 온라인 하락 국면에서 B2B·로컬 도매·급식 채널 확장 타당성 확인.</div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-bottom:14px">
-    <div class="card-hdr"><div class="card-ttl">채널별 신장율 비교</div></div>
-    <div style="position:relative;height:180px">
-      <canvas id="c-insight" role="img" aria-label="채널별 신장율">스마트스토어 +51.8 오프라인 +34.3 카카오 -18.1 자사몰 -27.1 기타 -31.9 쿠팡 -50.1</canvas>
-    </div>
-  </div>
-
-  <div class="sec-lbl">경영 액션 플랜</div>
-  <div class="act-grid" style="margin-bottom:14px">
-    <div class="act"><div class="act-n r">1</div><div class="act-ttl">긴축 원가 관리 즉시 착수</div><div class="act-body">원자재 상승 대응. 저마진 SKU 정리, 납품 단가 재협상, 원가율 전면 재검토.</div></div>
-    <div class="act"><div class="act-n r">2</div><div class="act-ttl">케이푸드 관계사 복구</div><div class="act-body">96% 소멸 원인 파악. B2B 거래처 이탈 확인 후 재계약 또는 신규 거래처 확보.</div></div>
-    <div class="act"><div class="act-n a">3</div><div class="act-ttl">스마트스토어 집중 투자</div><div class="act-body">유일 성장 채널 예산 집중 재배분. ROAS 측정 후 SKU·리뷰 최적화 병행.</div></div>
-    <div class="act"><div class="act-n a">4</div><div class="act-ttl">카카오 의존도 분산</div><div class="act-body">51.6% 집중 리스크 완화. 스마트스토어·자사몰 육성. 카카오 30% 이하 중기 목표.</div></div>
-    <div class="act"><div class="act-n g">5</div><div class="act-ttl">쿠팡 이탈 원인 분석</div><div class="act-body">-50% 급락 원인 분리. 수수료 구조 재검토 후 유지 또는 전략적 축소 결정.</div></div>
-    <div class="act"><div class="act-n g">6</div><div class="act-ttl">오프라인 B2B 확대</div><div class="act-body">+34% 성장세 활용. 로컬 도매·급식·기업 납품 개척으로 온라인 의존 분산.</div></div>
-  </div>
-
-  <div class="sec-lbl">리스크 레이더</div>
-  <div class="risk-grid">
-    <div class="risk">
-      <div class="card-ttl" style="margin-bottom:12px">외부 환경 리스크</div>
-      <div class="rb-lbl"><span>이란전쟁 원가 압박</span><span style="color:var(--red)">매우 높음</span></div>
-      <div class="rb-track"><div class="rb-fill" style="width:90%;background:var(--red)"></div></div>
-      <div class="rb-lbl"><span>소비 심리 위축</span><span style="color:var(--red)">높음</span></div>
-      <div class="rb-track"><div class="rb-fill" style="width:75%;background:#f97316"></div></div>
-      <div class="rb-lbl"><span>경쟁사 가격 압박</span><span style="color:var(--amber)">중간</span></div>
-      <div class="rb-track"><div class="rb-fill" style="width:55%;background:var(--amber)"></div></div>
-    </div>
-    <div class="risk">
-      <div class="card-ttl" style="margin-bottom:12px">내부 채널 리스크</div>
-      <div class="rb-lbl"><span>카카오 집중 의존</span><span style="color:var(--red)">높음</span></div>
-      <div class="rb-track"><div class="rb-fill" style="width:80%;background:var(--red)"></div></div>
-      <div class="rb-lbl"><span>케이푸드 관계사 소멸</span><span style="color:var(--red)">높음</span></div>
-      <div class="rb-track"><div class="rb-fill" style="width:78%;background:var(--red)"></div></div>
-      <div class="rb-lbl"><span>쿠팡 채널 추가 이탈</span><span style="color:var(--amber)">중간</span></div>
-      <div class="rb-track"><div class="rb-fill" style="width:60%;background:var(--amber)"></div></div>
-    </div>
-  </div>
-</div>
-
-</div><!-- /body -->
-
-<!-- TOAST -->
-<div id="toast">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-  <span id="toast-msg">파일이 로드되었습니다</span>
+<div class="card">
+  <canvas id="chart"></canvas>
 </div>
 
 <script>
-/* ── TABS ── */
-document.querySelectorAll('.tab').forEach(t=>{
-  t.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-    document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
-    t.classList.add('on');
-    document.getElementById('pg-'+t.dataset.pg).classList.add('on');
-  });
-});
-
-/* ── CHART DEFAULTS ── */
-const gc='rgba(255,255,255,0.05)', tc='#4a5a7a';
-const base={responsive:true,maintainAspectRatio:false};
-
-/* company bar */
-new Chart(document.getElementById('c-company'),{
+new Chart(document.getElementById('chart'),{
   type:'bar',
   data:{
-    labels:['조은장터','케이푸드','합계'],
+    labels:['조은장터','케이푸드'],
     datasets:[
-      {label:'25년',data:[21909,6685,28594],backgroundColor:'#4f46e5',borderRadius:4},
-      {label:'26년',data:[17808,4432,22240],backgroundColor:'#22d3ee',borderRadius:4}
+      {label:'25년',data:[219,67]},
+      {label:'26년',data:[178,44]}
     ]
-  },
-  options:{...base,plugins:{legend:{display:false}},
-    scales:{x:{ticks:{color:tc,font:{size:11}},grid:{color:gc}},
-            y:{ticks:{color:tc,font:{size:10},callback:v=>v+'억'},grid:{color:gc}}}}
+  }
 });
-
-/* overview donut */
-new Chart(document.getElementById('c-pie'),{
-  type:'doughnut',
-  data:{labels:['조은장터','케이푸드'],datasets:[{data:[17807820,4432491],backgroundColor:['#818cf8','#fb923c'],borderWidth:0,hoverOffset:4}]},
-  options:{...base,cutout:'70%',plugins:{legend:{display:false}}}
-});
-
-/* growth bar */
-new Chart(document.getElementById('c-growth'),{
-  type:'bar',
-  data:{
-    labels:['스마트스토어','오프라인','카카오','자사몰','기타','쿠팡'],
-    datasets:[{data:[51.8,34.3,-18.1,-27.1,-31.9,-50.1],
-      backgroundColor:['#22d3ee','#34d399','#f59e0b','#f97316','#ef4444','#dc2626'],
-      borderRadius:4}]
-  },
-  options:{...base,plugins:{legend:{display:false}},
-    scales:{x:{ticks:{color:tc,font:{size:10},maxRotation:20},grid:{color:gc}},
-            y:{ticks:{color:tc,font:{size:10},callback:v=>v+'%'},grid:{color:gc}}}}
-});
-
-/* channel donut */
-new Chart(document.getElementById('c-ch-pie'),{
-  type:'doughnut',
-  data:{labels:['카카오','스마트스토어','쿠팡/호남미트','자사몰','기타'],
-    datasets:[{data:[11472898,3057046,2374994,148087,5187286],
-      backgroundColor:['#6366f1','#22d3ee','#f59e0b','#a78bfa','#475569'],
-      borderWidth:0,hoverOffset:4}]},
-  options:{...base,cutout:'65%',plugins:{legend:{display:false}}}
-});
-
-/* insight bar */
-new Chart(document.getElementById('c-insight'),{
-  type:'bar',
-  data:{
-    labels:['스마트스토어','오프라인','카카오','자사몰','기타','쿠팡'],
-    datasets:[{data:[51.8,34.3,-18.1,-27.1,-31.9,-50.1],
-      backgroundColor:['#22d3ee','#34d399','#f59e0b','#f97316','#ef4444','#dc2626'],
-      borderRadius:4}]
-  },
-  options:{...base,plugins:{legend:{display:false}},
-    scales:{x:{ticks:{color:tc,font:{size:10},maxRotation:20},grid:{color:gc}},
-            y:{ticks:{color:tc,font:{size:10},callback:v=>v+'%'},grid:{color:gc}}}}
-});
-
-/* ── DRAG DROP ── */
-const dz=document.getElementById('upload-bar');
-dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag');});
-dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
-dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
-
-/* ── UPLOAD ── */
-function handleFile(f){
-  if(!f)return;
-  const ext=f.name.split('.').pop().toLowerCase();
-  if(!['xlsx','xls','csv'].includes(ext)){showToast('지원하지 않는 파일 형식입니다',false);return;}
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const wb=XLSX.read(e.target.result,{type:'array'});
-      const ws=wb.Sheets[wb.SheetNames[0]];
-      const data=XLSX.utils.sheet_to_json(ws,{header:1});
-      document.getElementById('ub-sub-txt').textContent=`${f.name} · ${data.length}행 로드 완료 · 데이터 반영됨`;
-      dz.classList.add('done');
-      showToast(`"${f.name}" 업로드 완료 — ${data.length}행 데이터 반영`);
-    }catch(err){showToast('파일 읽기 오류: '+err.message,false);}
-  };
-  reader.readAsArrayBuffer(f);
-}
-
-function loadSample(){
-  document.getElementById('ub-sub-txt').textContent='26년1분기매출현황260423.xlsx · 샘플 데이터 로드 완료';
-  dz.classList.add('done');
-  showToast('1분기 샘플 데이터가 대시보드에 반영되었습니다');
-}
-
-function showToast(msg,ok=true){
-  const t=document.getElementById('toast');
-  const icon=t.querySelector('svg');
-  icon.setAttribute('stroke',ok?'#34d399':'#f87171');
-  document.getElementById('toast-msg').textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3500);
-}
 </script>
+
 </body>
 </html>
