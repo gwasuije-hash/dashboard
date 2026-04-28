@@ -15,6 +15,7 @@
   --blue:#1a4fa0;--blue-bg:#e4ecfa;
   --amber:#8a5a0a;--amber-bg:#fdf3df;
   --orange:#b84a10;--orange-bg:#fdf0e6;
+  --meat:#cc2200;--meat-bg:#fff0ed;
 }
 @media(prefers-color-scheme:dark){:root{
   --bg:#181816;--card:#222220;--card2:#2a2a28;--border:rgba(255,255,255,0.09);
@@ -24,21 +25,26 @@
   --blue:#6b9de8;--blue-bg:#0e1e3a;
   --amber:#d4943a;--amber-bg:#2a1e08;
   --orange:#e07a40;--orange-bg:#2a1508;
+  --meat:#ff6644;--meat-bg:#2a1008;
 }}
 body{font-family:-apple-system,'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);padding-bottom:52px}
-
 .hdr{background:var(--card);border-bottom:.5px solid var(--border);padding:13px 16px;position:sticky;top:0;z-index:50}
 .hdr-row{display:flex;align-items:center;justify-content:space-between}
 .hdr h1{font-size:14px;font-weight:700;letter-spacing:-.3px}
 .hdr-sub{font-size:11px;color:var(--t3);margin-top:2px}
 .badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap;background:var(--red-bg);color:var(--red)}
-
+.tab-bar{background:var(--card);border-bottom:.5px solid var(--border);padding:0 16px;display:flex;position:sticky;top:44px;z-index:49;overflow-x:auto}
+.tab-btn{font-size:12px;font-weight:600;padding:10px 16px;border:none;background:transparent;color:var(--t3);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap}
+.tab-btn:hover{color:var(--t1)}
+.tab-btn.active{color:var(--t1);border-bottom-color:var(--t1)}
+.tab-btn.t-meat.active{color:var(--meat);border-bottom-color:var(--meat)}
+.tab-btn.t-erp.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab-content{display:none}
+.tab-content.active{display:block}
 .wrap{max-width:680px;margin:0 auto;padding:12px}
 .slabel{font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--t3);text-transform:uppercase;margin:20px 0 8px}
 .slabel:first-child{margin-top:4px}
 .divider{height:.5px;background:var(--border);margin:20px 0}
-
-/* KPI */
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
 @media(min-width:460px){.kpi-grid.four{grid-template-columns:repeat(4,1fr)}}
 .kpi{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:12px 13px}
@@ -46,8 +52,6 @@ body{font-family:-apple-system,'Noto Sans KR',sans-serif;background:var(--bg);co
 .kpi-val{font-size:20px;font-weight:800;letter-spacing:-.5px;line-height:1}
 .kpi-chg{font-size:11px;font-weight:600;margin-top:4px}
 .kpi-note{font-size:10px;color:var(--t3);margin-top:3px}
-
-/* Chart cards */
 .ccard{background:var(--card);border:.5px solid var(--border);border-radius:14px;padding:15px;margin-bottom:8px}
 .chead{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
 .ctitle{font-size:12px;font-weight:700}
@@ -56,15 +60,11 @@ body{font-family:-apple-system,'Noto Sans KR',sans-serif;background:var(--bg);co
 .litem{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--t2)}
 .lsq{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 .canno{font-size:10px;color:var(--t3);text-align:center;margin-top:7px;line-height:1.5}
-
-/* Gauge */
 .gauge-row{display:flex;align-items:center;gap:10px;margin-bottom:11px}
 .gauge-lbl{font-size:10px;font-weight:600;color:var(--t1);width:88px;flex-shrink:0;line-height:1.4;white-space:pre-line}
 .gauge-track{flex:1;height:7px;background:var(--card2);border-radius:4px;overflow:hidden}
 .gauge-fill{height:100%;border-radius:4px}
 .gauge-val{font-size:11px;font-weight:700;min-width:54px;text-align:right}
-
-/* P&L table */
 .ftable{width:100%;border-collapse:collapse;font-size:12px}
 .ftable th{font-size:10px;font-weight:700;color:var(--t3);padding:6px 8px;border-bottom:.5px solid var(--border);text-align:right}
 .ftable th:first-child{text-align:left}
@@ -76,8 +76,6 @@ body{font-family:-apple-system,'Noto Sans KR',sans-serif;background:var(--bg);co
 .pill-up{background:var(--green-bg);color:var(--green)}
 .pill-dn{background:var(--red-bg);color:var(--red)}
 .pill-warn{background:var(--amber-bg);color:var(--amber)}
-
-/* Insight cards */
 .icard{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px}
 .itag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-bottom:8px}
 .tag-red{background:var(--red-bg);color:var(--red)}
@@ -95,6 +93,43 @@ body{font-family:-apple-system,'Noto Sans KR',sans-serif;background:var(--bg);co
 .inum-lbl{font-size:9px;color:var(--t3);margin-bottom:3px;font-weight:600;line-height:1.3}
 .inum-val{font-size:15px;font-weight:800;letter-spacing:-.4px;line-height:1}
 .cv-up{color:var(--green)}.cv-dn{color:var(--red)}.cv-nu{color:var(--t1)}.cv-warn{color:var(--amber)}
+/* 미트박스 */
+.meat-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.meat-logo{font-size:16px;font-weight:800;color:var(--meat);letter-spacing:-.5px}
+.spill{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--card2);color:var(--t3)}
+.spill.live{background:var(--green-bg);color:var(--green)}
+.spill.err{background:var(--red-bg);color:var(--red)}
+.mctrl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.mi{font-size:11px;padding:5px 8px;border-radius:8px;border:.5px solid var(--border);background:var(--card);color:var(--t1);font-family:inherit}
+.mbtn{font-size:11px;padding:5px 14px;border-radius:8px;border:none;background:var(--meat);color:#fff;cursor:pointer;font-weight:700}
+.mbtn:hover{opacity:.85}
+.mbtn-s{font-size:11px;padding:5px 12px;border-radius:8px;border:.5px solid var(--border);background:var(--card);color:var(--t2);cursor:pointer}
+.mkpi{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+@media(min-width:460px){.mkpi{grid-template-columns:repeat(4,1fr)}}
+.mk{background:var(--card2);border-radius:10px;padding:10px 12px}
+.mk-l{font-size:10px;color:var(--t3);font-weight:600;margin-bottom:4px}
+.mk-v{font-size:18px;font-weight:800;letter-spacing:-.4px;color:var(--t1)}
+.mk-v.r{color:var(--red)}.mk-v.g{color:var(--green)}
+.mk-s{font-size:10px;color:var(--t3);margin-top:2px}
+.merr{font-size:11px;color:var(--red);background:var(--red-bg);padding:6px 10px;border-radius:8px;margin-bottom:10px;display:none}
+.mtbl{width:100%;border-collapse:collapse;font-size:11px}
+.mtbl th{font-size:10px;font-weight:700;color:var(--t3);padding:5px 7px;border-bottom:.5px solid var(--border);text-align:right}
+.mtbl th:first-child{text-align:left}
+.mtbl td{padding:6px 7px;border-bottom:.5px solid var(--border);text-align:right;color:var(--t2);font-variant-numeric:tabular-nums}
+.mtbl td:first-child{text-align:left;color:var(--t1)}
+.mtbl tr:last-child td{border-bottom:none}
+.mtbl tr.msum td{font-weight:700;background:var(--card2);color:var(--t1)}
+/* ERP 준비 */
+.erp-wrap{text-align:center;padding:48px 16px}
+.erp-icon{width:52px;height:52px;border-radius:14px;background:var(--blue-bg);margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
+.erp-title{font-size:15px;font-weight:700;margin-bottom:8px}
+.erp-desc{font-size:12px;color:var(--t2);line-height:1.8;margin-bottom:20px}
+.erp-list{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:14px;text-align:left;max-width:380px;margin:0 auto}
+.erp-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:.5px solid var(--border);font-size:12px}
+.erp-item:last-child{border-bottom:none}
+.erp-num{width:20px;height:20px;border-radius:50%;background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.erp-it{font-weight:700;color:var(--t1);margin-bottom:2px}
+.erp-id{color:var(--t3);font-size:11px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -105,103 +140,58 @@ body{font-family:-apple-system,'Noto Sans KR',sans-serif;background:var(--bg);co
       <h1>전사 경영현황 대시보드</h1>
       <div class="hdr-sub">매출 · 손익 · 재무 통합</div>
     </div>
-    <span class="badge">2026.04.23</span>
+    <span class="badge" id="hdr-date"></span>
   </div>
 </header>
 
-<div class="wrap">
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('t1',this)">전사 경영현황</button>
+  <button class="tab-btn t-meat" onclick="switchTab('t2',this)">MEATBOX 정산</button>
+  <button class="tab-btn t-erp" onclick="switchTab('t3',this)">더존 ERP +</button>
+</nav>
 
-  <!-- ══ KPI ══ -->
+<!-- ══ 탭1: 전사 경영현황 ══ -->
+<div id="t1" class="tab-content active"><div class="wrap">
+
   <p class="slabel">핵심 수치 (25년 기준)</p>
   <div class="kpi-grid four">
-    <div class="kpi">
-      <div class="kpi-lbl">통합 연간 매출</div>
-      <div class="kpi-val">722억</div>
-      <div class="kpi-chg" style="color:var(--t3)">조은장터+케이푸드</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-lbl">통합 세전손익</div>
-      <div class="kpi-val" style="color:var(--red)">-5.6억</div>
-      <div class="kpi-chg" style="color:var(--red)">적자 전환</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-lbl">조은장터 영업이익</div>
-      <div class="kpi-val">24.6억</div>
-      <div class="kpi-chg" style="color:var(--green)">이익률 4.3%</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-lbl">케이푸드 순손실</div>
-      <div class="kpi-val" style="color:var(--red)">-18.2억</div>
-      <div class="kpi-chg" style="color:var(--red)">자본 9.2억 잔존</div>
-    </div>
+    <div class="kpi"><div class="kpi-lbl">통합 연간 매출</div><div class="kpi-val">722억</div><div class="kpi-chg" style="color:var(--t3)">조은장터+케이푸드</div></div>
+    <div class="kpi"><div class="kpi-lbl">통합 세전손익</div><div class="kpi-val" style="color:var(--red)">-5.6억</div><div class="kpi-chg" style="color:var(--red)">적자 전환</div></div>
+    <div class="kpi"><div class="kpi-lbl">조은장터 영업이익</div><div class="kpi-val">24.6억</div><div class="kpi-chg" style="color:var(--green)">이익률 4.3%</div></div>
+    <div class="kpi"><div class="kpi-lbl">케이푸드 순손실</div><div class="kpi-val" style="color:var(--red)">-18.2억</div><div class="kpi-chg" style="color:var(--red)">자본 9.2억 잔존</div></div>
   </div>
   <div class="kpi-grid">
-    <div class="kpi">
-      <div class="kpi-lbl">26년 1분기 매출</div>
-      <div class="kpi-val">222억</div>
-      <div class="kpi-chg" style="color:var(--red)">▼ 22.2% 전년比</div>
-      <div class="kpi-note">63억 감소</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-lbl">케이푸드 부채비율</div>
-      <div class="kpi-val" style="color:var(--red)">1,529%</div>
-      <div class="kpi-chg" style="color:var(--red)">유동비율 13%</div>
-      <div class="kpi-note">단기 지급 위험</div>
-    </div>
+    <div class="kpi"><div class="kpi-lbl">26년 1분기 매출</div><div class="kpi-val">222억</div><div class="kpi-chg" style="color:var(--red)">▼ 22.2% 전년比</div><div class="kpi-note">63억 감소</div></div>
+    <div class="kpi"><div class="kpi-lbl">케이푸드 부채비율</div><div class="kpi-val" style="color:var(--red)">1,529%</div><div class="kpi-chg" style="color:var(--red)">유동비율 13%</div><div class="kpi-note">단기 지급 위험</div></div>
   </div>
 
-  <!-- ══ 차트1: 손익 추이 ══ -->
   <p class="slabel">세전이익 추이 (2020–2025)</p>
   <div class="ccard">
-    <div class="chead">
-      <span class="ctitle">연도별 세전이익</span>
-      <span class="cunit">단위: 억원</span>
-    </div>
-    <div class="leg">
-      <span class="litem"><span class="lsq" style="background:#1a4fa0"></span>조은장터</span>
-      <span class="litem"><span class="lsq" style="background:#b02828"></span>케이푸드 (점선)</span>
-    </div>
-    <div style="position:relative;width:100%;height:200px">
-      <canvas id="c-profit" role="img" aria-label="세전이익 추이. 케이푸드 2024~2025 연속 적자">세전이익 추이</canvas>
-    </div>
+    <div class="chead"><span class="ctitle">연도별 세전이익</span><span class="cunit">단위: 억원</span></div>
+    <div class="leg"><span class="litem"><span class="lsq" style="background:#1a4fa0"></span>조은장터</span><span class="litem"><span class="lsq" style="background:#b02828"></span>케이푸드 (점선)</span></div>
+    <div style="position:relative;width:100%;height:200px"><canvas id="c-profit" role="img" aria-label="세전이익 추이">세전이익 추이</canvas></div>
     <div class="canno">케이푸드, 2024년부터 연속 적자 → 25년말 자본 9.2억만 남음</div>
   </div>
 
-  <!-- ══ 차트2: 수익성 비교 ══ -->
   <p class="slabel">25년 수익성 구조</p>
   <div class="ccard">
-    <div class="chead">
-      <span class="ctitle">조은장터 vs 케이푸드 마진율</span>
-      <span class="cunit">단위: %</span>
-    </div>
-    <div class="leg">
-      <span class="litem"><span class="lsq" style="background:#1a4fa0"></span>조은장터</span>
-      <span class="litem"><span class="lsq" style="background:#b02828"></span>케이푸드(익산 본체)</span>
-    </div>
-    <div style="position:relative;width:100%;height:190px">
-      <canvas id="c-margin" role="img" aria-label="수익성 비교 차트">수익성 비교</canvas>
-    </div>
+    <div class="chead"><span class="ctitle">조은장터 vs 케이푸드 마진율</span><span class="cunit">단위: %</span></div>
+    <div class="leg"><span class="litem"><span class="lsq" style="background:#1a4fa0"></span>조은장터</span><span class="litem"><span class="lsq" style="background:#b02828"></span>케이푸드(익산 본체)</span></div>
+    <div style="position:relative;width:100%;height:190px"><canvas id="c-margin" role="img" aria-label="수익성 비교">수익성 비교</canvas></div>
     <div class="canno">케이푸드 익산 본체 영업이익 0.04% — K정읍·K서울 적자가 전체를 끌어내림</div>
   </div>
 
-  <!-- ══ 차트3: 재무건전성 ══ -->
   <p class="slabel">재무건전성 현황 (25년말)</p>
   <div class="ccard">
-    <div class="chead">
-      <span class="ctitle">부채비율 · 유동비율</span>
-      <span class="cunit">막대가 길수록 위험</span>
-    </div>
+    <div class="chead"><span class="ctitle">부채비율 · 유동비율</span><span class="cunit">막대가 길수록 위험</span></div>
     <div id="gauge-wrap" style="padding:4px 0"></div>
     <div class="canno">유동비율 100% 미만 = 단기 부채를 갚을 현금이 부족한 상태</div>
   </div>
 
-  <!-- ══ 차트4: 손익계산서 요약 ══ -->
   <p class="slabel">25년 손익계산서 요약</p>
   <div class="ccard">
     <table class="ftable">
-      <thead>
-        <tr><th>항목</th><th>조은장터</th><th>케이푸드</th><th>통합</th></tr>
-      </thead>
+      <thead><tr><th>항목</th><th>조은장터</th><th>케이푸드</th><th>통합</th></tr></thead>
       <tbody>
         <tr><td>매출액</td><td>567.9억</td><td>154.7억</td><td>722.5억</td></tr>
         <tr><td>매출원가율</td><td><span class="pill pill-warn">85.2%</span></td><td><span class="pill pill-dn">85.3%</span></td><td>—</td></tr>
@@ -214,145 +204,116 @@ body{font-family:-apple-system,'Noto Sans KR',sans-serif;background:var(--bg);co
     <div class="canno" style="margin-top:8px">조은장터 세전이익 12.6억 = 영업이익 24.6억 − 케이푸드 지분법손실 11.1억</div>
   </div>
 
-  <!-- ══ 차트5: 연간 매출 ══ -->
   <p class="slabel">연간 매출 추이 (2021–2025)</p>
   <div class="ccard">
-    <div class="chead">
-      <span class="ctitle">전사 연간 매출</span>
-      <span class="cunit">단위: 억원</span>
-    </div>
-    <div class="leg">
-      <span class="litem"><span class="lsq" style="background:#1a4fa0"></span>조은장터</span>
-      <span class="litem"><span class="lsq" style="background:#1d6b3a"></span>케이푸드</span>
-    </div>
-    <div style="position:relative;width:100%;height:190px">
-      <canvas id="c-annual" role="img" aria-label="2021~2025 연간 매출 추이">연간 매출</canvas>
-    </div>
+    <div class="chead"><span class="ctitle">전사 연간 매출</span><span class="cunit">단위: 억원</span></div>
+    <div class="leg"><span class="litem"><span class="lsq" style="background:#1a4fa0"></span>조은장터</span><span class="litem"><span class="lsq" style="background:#1d6b3a"></span>케이푸드</span></div>
+    <div style="position:relative;width:100%;height:190px"><canvas id="c-annual" role="img" aria-label="연간 매출">연간 매출</canvas></div>
   </div>
 
-  <!-- ══ 차트6: 월별 패턴 ══ -->
   <p class="slabel">월별 매출 패턴 (25년 vs 24년)</p>
   <div class="ccard">
-    <div class="chead">
-      <span class="ctitle">월별 매출 비교</span>
-      <span class="cunit">단위: 억원</span>
-    </div>
-    <div class="leg">
-      <span class="litem"><span class="lsq" style="background:#1a4fa0"></span>25년 명절월</span>
-      <span class="litem"><span class="lsq" style="background:#c8d8f0"></span>25년 일반월</span>
-      <span class="litem"><span class="lsq" style="background:#c0bfb8"></span>24년 (점선)</span>
-    </div>
-    <div style="position:relative;width:100%;height:200px">
-      <canvas id="c-monthly" role="img" aria-label="월별 매출. 1월(설) 166억, 9월(추석) 110억 두드러짐">월별 매출</canvas>
-    </div>
+    <div class="chead"><span class="ctitle">월별 매출 비교</span><span class="cunit">단위: 억원</span></div>
+    <div class="leg"><span class="litem"><span class="lsq" style="background:#1a4fa0"></span>25년 명절월</span><span class="litem"><span class="lsq" style="background:#c8d8f0"></span>25년 일반월</span><span class="litem"><span class="lsq" style="background:#c0bfb8"></span>24년 (점선)</span></div>
+    <div style="position:relative;width:100%;height:200px"><canvas id="c-monthly" role="img" aria-label="월별 매출">월별 매출</canvas></div>
     <div class="canno">1월(설) · 9월(추석) 두 달 = 연매출의 35%</div>
   </div>
 
-  <!-- ══ 차트7: 26년 1Q 채널 ══ -->
   <p class="slabel">26년 1분기 채널별 전년比 증감</p>
   <div class="ccard">
-    <div class="chead">
-      <span class="ctitle">채널별 신장률</span>
-      <span class="cunit">초록=성장 / 빨강=감소</span>
-    </div>
-    <div style="position:relative;width:100%;height:270px">
-      <canvas id="c-channel" role="img" aria-label="26년 1분기 채널별 신장률">채널별 신장률</canvas>
-    </div>
+    <div class="chead"><span class="ctitle">채널별 신장률</span><span class="cunit">초록=성장 / 빨강=감소</span></div>
+    <div style="position:relative;width:100%;height:270px"><canvas id="c-channel" role="img" aria-label="채널별 신장률">채널별 신장률</canvas></div>
   </div>
 
-  <!-- ══ 26년 1Q 표 ══ -->
   <p class="slabel">26년 1분기 채널 상세</p>
   <div class="ccard">
-    <table class="ftable">
-      <thead>
-        <tr><th>채널</th><th>25년 1Q</th><th>26년 1Q</th><th>변화</th></tr>
-      </thead>
-      <tbody id="q1-tbody"></tbody>
-    </table>
+    <table class="ftable"><thead><tr><th>채널</th><th>25년 1Q</th><th>26년 1Q</th><th>변화</th></tr></thead><tbody id="q1-tbody"></tbody></table>
   </div>
 
-  <!-- ══ 온라인 채널 구성 ══ -->
   <p class="slabel">25년 조은장터 온라인 채널 구성</p>
   <div class="ccard">
-    <div class="chead">
-      <span class="ctitle">채널별 비중</span>
-      <span class="cunit">온라인 474억 기준</span>
-    </div>
+    <div class="chead"><span class="ctitle">채널별 비중</span><span class="cunit">온라인 474억 기준</span></div>
     <div id="online-bars"></div>
   </div>
 
   <div class="divider"></div>
+  <p class="slabel">핵심 인사이트</p>
 
-  <!-- ══ 핵심 인사이트 ══ -->
-  <p class="slabel">핵심 인사이트 — 지금 무슨 일이 일어나고 있나</p>
+  <div class="icard"><span class="itag tag-red">최우선 위기</span><div class="ititle">케이푸드가 조은장터의 발목을 잡고 있다</div><div class="idesc">조은장터는 25년에 <strong>영업이익 24.6억</strong>을 냈다. 세전이익은 <strong>12.6억</strong>으로 줄어든다. <strong>케이푸드 지분법 손실 11.1억</strong>이 반영되기 때문.</div><div class="inums"><div class="inum"><div class="inum-lbl">조은장터 영업이익</div><div class="inum-val cv-up">+24.6억</div></div><div class="inum"><div class="inum-lbl">지분법 손실 차감</div><div class="inum-val cv-dn">-11.1억</div></div><div class="inum"><div class="inum-lbl">최종 세전이익</div><div class="inum-val cv-warn">12.6억</div></div></div></div>
 
-  <div class="icard">
-    <span class="itag tag-red">🚨 최우선 위기</span>
-    <div class="ititle">케이푸드가 조은장터의 발목을 잡고 있다</div>
-    <div class="idesc">조은장터는 25년에 <strong>영업이익 24.6억</strong>을 냈다. 그런데 세전이익은 <strong>12.6억</strong>으로 줄어든다. 이유는 <strong>케이푸드 지분법 손실 11.1억</strong>이 그대로 반영되기 때문. 케이푸드가 적자를 낼수록 조은장터 순이익도 같이 깎인다.</div>
-    <div class="inums">
-      <div class="inum"><div class="inum-lbl">조은장터 영업이익</div><div class="inum-val cv-up">+24.6억</div></div>
-      <div class="inum"><div class="inum-lbl">지분법 손실 차감</div><div class="inum-val cv-dn">-11.1억</div></div>
-      <div class="inum"><div class="inum-lbl">최종 세전이익</div><div class="inum-val cv-warn">12.6억</div></div>
+  <div class="icard"><span class="itag tag-red">자본잠식 경고</span><div class="ititle">케이푸드, 26년에도 적자면 자본이 바닥난다</div><div class="idesc">케이푸드 25년말 자본은 <strong>9.2억</strong>뿐이다. 2년 연속 적자. K정읍은 원가율이 <strong>112%</strong> — 팔수록 손해 보는 구조다.</div><div class="inums"><div class="inum"><div class="inum-lbl">24년 순손실</div><div class="inum-val cv-dn">-7.4억</div></div><div class="inum"><div class="inum-lbl">25년 순손실</div><div class="inum-val cv-dn">-18.2억</div></div><div class="inum"><div class="inum-lbl">25년말 잔존 자본</div><div class="inum-val cv-warn">9.2억</div></div></div></div>
+
+  <div class="icard"><span class="itag tag-red">26년 경보</span><div class="ititle">26년 1분기 -22%, 회복세가 꺾였다</div><div class="idesc">케이푸드 관계사 매출 <strong>81억 → 3억(-96%)</strong>으로 소멸. 이란전쟁 영향으로 원가 상승과 소비 위축이 동시에 오는 중.</div><div class="inums"><div class="inum"><div class="inum-lbl">25년 1Q</div><div class="inum-val cv-nu">285억</div></div><div class="inum"><div class="inum-lbl">26년 1Q</div><div class="inum-val cv-dn">222억</div></div><div class="inum"><div class="inum-lbl">케이푸드 관계사</div><div class="inum-val cv-dn">-96%</div></div></div></div>
+
+  <div class="icard"><span class="itag tag-green">유일한 희망</span><div class="ititle">쿠팡이 1년 만에 5배 — 채널 다변화가 작동한다</div><div class="idesc">24년 16억이었던 쿠팡 채널이 25년 <strong>88억(+441%)</strong>으로 폭증. 케이푸드는 온라인의 <strong>81%가 카카오 단일 채널</strong>에 집중.</div><div class="inums"><div class="inum"><div class="inum-lbl">쿠팡 24년</div><div class="inum-val cv-nu">16억</div></div><div class="inum"><div class="inum-lbl">쿠팡 25년</div><div class="inum-val cv-up">88억</div></div><div class="inum"><div class="inum-lbl">케이푸드 카카오 의존도</div><div class="inum-val cv-warn">81%</div></div></div></div>
+
+</div></div>
+
+<!-- ══ 탭2: 미트박스 정산 ══ -->
+<div id="t2" class="tab-content"><div class="wrap">
+
+  <div class="ccard">
+    <div class="meat-top">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="meat-logo">MEATBOX</span>
+        <span class="spill" id="m-status">대기중</span>
+        <span style="font-size:10px;color:var(--t3)" id="m-ts"></span>
+      </div>
+      <div class="mctrl">
+        <input class="mi" id="m-from" type="date" value="2026-04-01" style="width:118px">
+        <span style="font-size:11px;color:var(--t3)">~</span>
+        <input class="mi" id="m-to" type="date" value="2026-04-30" style="width:118px">
+        <select class="mi" id="m-iv" style="width:88px">
+          <option value="0">수동</option>
+          <option value="60000">1분 자동</option>
+          <option value="300000">5분 자동</option>
+        </select>
+        <button class="mbtn-s" id="m-stop" style="display:none" onclick="mStop()">정지</button>
+        <button class="mbtn" id="m-go" onclick="mStart()">불러오기</button>
+      </div>
+    </div>
+    <div class="merr" id="m-err"></div>
+    <div class="mkpi">
+      <div class="mk"><div class="mk-l">이달 총 매출</div><div class="mk-v g" id="mk-total">-</div><div class="mk-s" id="mk-cnt">- 건</div></div>
+      <div class="mk"><div class="mk-l">실 수령액</div><div class="mk-v" id="mk-actual">-</div><div class="mk-s">차감 후 지급</div></div>
+      <div class="mk"><div class="mk-l">서비스 이용료</div><div class="mk-v r" id="mk-fee">-</div><div class="mk-s">차감액</div></div>
+      <div class="mk"><div class="mk-l">지급 예정</div><div class="mk-v" id="mk-pend">-</div><div class="mk-s" id="mk-pend-d">-</div></div>
     </div>
   </div>
 
-  <div class="icard">
-    <span class="itag tag-red">🔥 자본잠식 경고</span>
-    <div class="ititle">케이푸드, 26년에도 적자면 자본이 바닥난다</div>
-    <div class="idesc">케이푸드 25년말 자본은 <strong>9.2억</strong>뿐이다. 24년(-7.4억), 25년(-18.2억) 2년 연속 적자로 급감했다. 26년에 비슷한 손실이 반복되면 <strong>자본잠식</strong>이 현실이 된다. K정읍은 원가율이 <strong>112%</strong> — 팔수록 손해 보는 구조다.</div>
-    <div class="inums">
-      <div class="inum"><div class="inum-lbl">24년 순손실</div><div class="inum-val cv-dn">-7.4억</div></div>
-      <div class="inum"><div class="inum-lbl">25년 순손실</div><div class="inum-val cv-dn">-18.2억</div></div>
-      <div class="inum"><div class="inum-lbl">25년말 잔존 자본</div><div class="inum-val cv-warn">9.2억</div></div>
+  <div class="ccard">
+    <div class="chead"><span class="ctitle">일별 매출 추이</span><span class="cunit">정산 기준</span></div>
+    <div style="position:relative;width:100%;height:180px"><canvas id="m-chart" role="img" aria-label="일별 정산 매출">일별 매출</canvas></div>
+  </div>
+
+  <div class="ccard">
+    <div class="chead"><span class="ctitle">정산 내역</span><span class="cunit" id="m-total-lbl"></span></div>
+    <div style="overflow-x:auto">
+      <table class="mtbl">
+        <thead><tr><th style="text-align:left">날짜</th><th>판매 매출</th><th>서비스료</th><th>실지급</th><th style="text-align:left">상태</th></tr></thead>
+        <tbody id="m-tbody"><tr><td colspan="5" style="padding:20px 7px;color:var(--t3);text-align:center">불러오기 버튼을 눌러주세요</td></tr></tbody>
+      </table>
     </div>
   </div>
 
-  <div class="icard">
-    <span class="itag tag-red">📉 26년 경보</span>
-    <div class="ititle">26년 1분기 -22%, 회복세가 꺾였다</div>
-    <div class="idesc">25년은 +5.7%로 반등하나 싶었는데 26년 1분기에 다시 <strong>-22.2%</strong> 급락. 특히 케이푸드 관계사 매출이 <strong>81억 → 3억(-96%)</strong>으로 사실상 소멸. 이란전쟁 영향으로 원가 상승과 소비 위축이 동시에 오는 중이다.</div>
-    <div class="inums">
-      <div class="inum"><div class="inum-lbl">25년 1Q</div><div class="inum-val cv-nu">285억</div></div>
-      <div class="inum"><div class="inum-lbl">26년 1Q</div><div class="inum-val cv-dn">222억</div></div>
-      <div class="inum"><div class="inum-lbl">케이푸드 관계사</div><div class="inum-val cv-dn">-96%</div></div>
+</div></div>
+
+<!-- ══ 탭3: 더존 ERP ══ -->
+<div id="t3" class="tab-content"><div class="wrap">
+  <div class="erp-wrap">
+    <div class="erp-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a4fa0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    </div>
+    <div class="erp-title">더존 iCUBE ERP 연동 준비중</div>
+    <div class="erp-desc">ERP 담당자에게 API 문서를 받으면<br>미트박스처럼 실시간 데이터 연동을 완성합니다.</div>
+    <div class="erp-list">
+      <div class="erp-item"><div class="erp-num">1</div><div><div class="erp-it">API 엔드포인트 URL 확인</div><div class="erp-id">더존 iCUBE 서버 주소 및 API 경로</div></div></div>
+      <div class="erp-item"><div class="erp-num">2</div><div><div class="erp-it">인증 방식 확인</div><div class="erp-id">API Key / OAuth 토큰 / 세션 쿠키 중 선택</div></div></div>
+      <div class="erp-item"><div class="erp-num">3</div><div><div class="erp-it">필요 데이터 API 목록</div><div class="erp-id">월별 매출 · 손익계산서 · 채널별 신장률</div></div></div>
+      <div class="erp-item"><div class="erp-num">4</div><div><div class="erp-it">API 문서 또는 Swagger 주소</div><div class="erp-id">담당자에게 받은 후 Claude에 공유 → 즉시 연동</div></div></div>
     </div>
   </div>
-
-  <div class="icard">
-    <span class="itag tag-amber">📅 구조적 패턴</span>
-    <div class="ititle">연매출의 35%가 설·추석 두 달에서 나온다</div>
-    <div class="idesc">25년 1월(설) <strong>166억</strong>, 9월(추석) <strong>110억</strong>. 비명절 달 평균은 54억에 불과하다. 명절 두 달 준비가 연간 실적을 좌우한다. 추석 매출이 24년 147억→25년 110억으로 <strong>25% 줄어든 것</strong>도 주의 신호다.</div>
-    <div class="inums">
-      <div class="inum"><div class="inum-lbl">설(1월)</div><div class="inum-val cv-up">166억</div></div>
-      <div class="inum"><div class="inum-lbl">추석(9월)</div><div class="inum-val cv-nu">110억</div></div>
-      <div class="inum"><div class="inum-lbl">비명절 달 평균</div><div class="inum-val cv-nu">54억</div></div>
-    </div>
-  </div>
-
-  <div class="icard">
-    <span class="itag tag-green">🚀 유일한 희망</span>
-    <div class="ititle">쿠팡이 1년 만에 5배 — 채널 다변화가 실제로 작동한다</div>
-    <div class="idesc">24년 16억이었던 쿠팡 채널이 25년 <strong>88억(+441%)</strong>으로 폭증. 카카오가 줄어드는 흐름에서 새 성장 엔진 역할. 단, 케이푸드는 온라인의 <strong>81%가 카카오 단일 채널</strong>에 집중돼 분산이 시급하다.</div>
-    <div class="inums">
-      <div class="inum"><div class="inum-lbl">쿠팡 24년</div><div class="inum-val cv-nu">16억</div></div>
-      <div class="inum"><div class="inum-lbl">쿠팡 25년</div><div class="inum-val cv-up">88억</div></div>
-      <div class="inum"><div class="inum-lbl">케이푸드 카카오 의존도</div><div class="inum-val cv-warn">81%</div></div>
-    </div>
-  </div>
-
-  <div class="icard">
-    <span class="itag tag-orange">🏭 구조 문제</span>
-    <div class="ititle">K정읍·K서울은 팔수록 손해 보는 구조다</div>
-    <div class="idesc">K정읍의 매출원가율은 <strong>112%</strong> — 100원짜리를 팔면 112원이 든다는 뜻이다. K서울은 매출 2.1억에 판관비가 5.2억(<strong>248%</strong>). 이 두 곳이 케이푸드 전체 손실 18.2억의 핵심 원인이다.</div>
-    <div class="inums">
-      <div class="inum"><div class="inum-lbl">K정읍 매출원가율</div><div class="inum-val cv-dn">112%</div></div>
-      <div class="inum"><div class="inum-lbl">K서울 판관비율</div><div class="inum-val cv-dn">248%</div></div>
-      <div class="inum"><div class="inum-lbl">케이푸드 영업손실</div><div class="inum-val cv-dn">-16.9억</div></div>
-    </div>
-  </div>
-
-</div>
+</div></div>
 
 <script>
 const dk=window.matchMedia('(prefers-color-scheme:dark)').matches;
@@ -361,161 +322,74 @@ const tc=dk?'#5a5955':'#9a9890';
 const lc=dk?'#a09e98':'#55534e';
 const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
 
-// 1. 세전이익 추이
-new Chart(document.getElementById('c-profit'),{
-  type:'line',
-  data:{
-    labels:['2020','2021','2022','2023','2024','2025'],
-    datasets:[
-      {label:'조은장터',data:[0.3,4.5,43.9,43.4,-29.4,12.6],borderColor:'#1a4fa0',backgroundColor:'transparent',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#1a4fa0',tension:0.3},
-      {label:'케이푸드',data:[1.3,2.0,4.2,4.2,-7.4,-18.2],borderColor:'#b02828',backgroundColor:'transparent',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#b02828',borderDash:[5,3],tension:0.3}
-    ]
-  },
-  options:{...base,
-    plugins:{...base.plugins,tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+(c.raw>0?'+':'')+c.raw+'억'}}},
-    scales:{
-      x:{grid:{display:false},ticks:{color:tc,font:{size:11}}},
-      y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'억'},afterDataLimits:s=>{s.min=Math.min(s.min,-35);s.max=Math.max(s.max,50)}}
-    }
-  }
-});
+document.getElementById('hdr-date').textContent=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'});
 
-// 2. 수익성 비교
-new Chart(document.getElementById('c-margin'),{
-  type:'bar',
-  data:{
-    labels:['매출총이익률','영업이익률','세전이익률'],
-    datasets:[
-      {label:'조은장터',data:[14.8,4.3,2.2],backgroundColor:'#1a4fa0',borderRadius:4,borderSkipped:false},
-      {label:'케이푸드(익산)',data:[16.4,0.04,-12.8],backgroundColor:dk?'#3a1010':'#faeaea',borderColor:'#b02828',borderWidth:1.5,borderRadius:4,borderSkipped:false}
-    ]
-  },
-  options:{...base,
-    plugins:{...base.plugins,tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+c.raw.toFixed(1)+'%'}}},
-    scales:{
-      x:{grid:{display:false},ticks:{color:lc,font:{size:11}}},
-      y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'%'}}
-    }
-  }
-});
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
 
-// 3. 재무 게이지
-const gauges=[
-  {label:'케이푸드\n부채비율',val:1529,max:1600,color:'#b02828',display:'1,529%'},
-  {label:'케이푸드\n유동비율',val:13,max:200,color:'#b02828',display:'13%'},
-  {label:'조은장터\n부채비율',val:169,max:400,color:'#1a4fa0',display:'169%'},
-  {label:'조은장터\n유동비율',val:83,max:200,color:'#1a4fa0',display:'83%'},
-];
-const gw=document.getElementById('gauge-wrap');
-gauges.forEach(g=>{
-  const pct=Math.min(g.val/g.max*100,100);
-  gw.innerHTML+=`<div class="gauge-row"><div class="gauge-lbl">${g.label}</div><div class="gauge-track"><div class="gauge-fill" style="width:${pct}%;background:${g.color}"></div></div><div class="gauge-val" style="color:${g.color}">${g.display}</div></div>`;
-});
+/* 전사 경영현황 차트들 */
+new Chart(document.getElementById('c-profit'),{type:'line',data:{labels:['2020','2021','2022','2023','2024','2025'],datasets:[{label:'조은장터',data:[0.3,4.5,43.9,43.4,-29.4,12.6],borderColor:'#1a4fa0',backgroundColor:'transparent',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#1a4fa0',tension:0.3},{label:'케이푸드',data:[1.3,2.0,4.2,4.2,-7.4,-18.2],borderColor:'#b02828',backgroundColor:'transparent',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#b02828',borderDash:[5,3],tension:0.3}]},options:{...base,plugins:{...base.plugins,tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+(c.raw>0?'+':'')+c.raw+'억'}}},scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:11}}},y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'억'},afterDataLimits:s=>{s.min=Math.min(s.min,-35);s.max=Math.max(s.max,50)}}}}});
 
-// 4. 연간 매출
-new Chart(document.getElementById('c-annual'),{
-  type:'bar',
-  data:{
-    labels:['2021','2022','2023','2024','2025'],
-    datasets:[
-      {label:'조은장터',data:[237,436,638,519,568],backgroundColor:'#1a4fa0',borderRadius:3,borderSkipped:false},
-      {label:'케이푸드',data:[53,107,218,207,155],backgroundColor:'#1d6b3a',borderRadius:3,borderSkipped:false}
-    ]
-  },
-  options:{...base,
-    plugins:{...base.plugins,tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}억`,footer:i=>'합계: '+(i.reduce((a,v)=>a+v.raw,0))+'억'}}},
-    scales:{
-      x:{stacked:true,grid:{display:false},ticks:{color:tc,font:{size:11}}},
-      y:{stacked:true,grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'억'}}
-    }
-  }
-});
+new Chart(document.getElementById('c-margin'),{type:'bar',data:{labels:['매출총이익률','영업이익률','세전이익률'],datasets:[{label:'조은장터',data:[14.8,4.3,2.2],backgroundColor:'#1a4fa0',borderRadius:4,borderSkipped:false},{label:'케이푸드(익산)',data:[16.4,0.04,-12.8],backgroundColor:dk?'#3a1010':'#faeaea',borderColor:'#b02828',borderWidth:1.5,borderRadius:4,borderSkipped:false}]},options:{...base,plugins:{...base.plugins,tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+c.raw.toFixed(1)+'%'}}},scales:{x:{grid:{display:false},ticks:{color:lc,font:{size:11}}},y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'%'}}}}});
 
-// 5. 월별
-const m25=[166,65,54,56,65,59,51,36,110,81,29];
-const m24=[75,105,34,34,53,37,45,46,147,57,53];
-new Chart(document.getElementById('c-monthly'),{
-  type:'bar',
-  data:{
-    labels:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월'],
-    datasets:[
-      {label:'2025년',data:m25,backgroundColor:m25.map((_,i)=>[0,8].includes(i)?'#1a4fa0':(dk?'#1e2e46':'#c8d8f0')),borderRadius:3,borderSkipped:false,order:1},
-      {label:'2024년',data:m24,type:'line',borderColor:dk?'#5a5955':'#b0afaa',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:2,tension:0.3,order:0}
-    ]
-  },
-  options:{...base,
-    plugins:{...base.plugins,tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}억`}}},
-    scales:{
-      x:{grid:{display:false},ticks:{color:tc,font:{size:10},maxRotation:0}},
-      y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'억'},min:0}
-    }
-  }
-});
+[{label:'케이푸드\n부채비율',val:1529,max:1600,color:'#b02828',display:'1,529%'},{label:'케이푸드\n유동비율',val:13,max:200,color:'#b02828',display:'13%'},{label:'조은장터\n부채비율',val:169,max:400,color:'#1a4fa0',display:'169%'},{label:'조은장터\n유동비율',val:83,max:200,color:'#1a4fa0',display:'83%'}].forEach(g=>{const p=Math.min(g.val/g.max*100,100);document.getElementById('gauge-wrap').innerHTML+=`<div class="gauge-row"><div class="gauge-lbl">${g.label}</div><div class="gauge-track"><div class="gauge-fill" style="width:${p}%;background:${g.color}"></div></div><div class="gauge-val" style="color:${g.color}">${g.display}</div></div>`;});
 
-// 6. 채널 신장률
-const chL=['스마트스토어\n(조은장터)','오프라인\n(조은장터)','카카오\n(조은장터)','오프라인\n(케이푸드)','온라인\n(케이푸드)','카카오\n(케이푸드)','관계사\n(조은장터)','관계사\n(케이푸드)'];
-const chV=[52.5,34.3,-13.4,-7.5,-34.5,-34.5,-37.2,-96.1];
-new Chart(document.getElementById('c-channel'),{
-  type:'bar',
-  data:{
-    labels:chL,
-    datasets:[{data:chV,
-      backgroundColor:chV.map(v=>v>=0?(dk?'#0d2e1a':'#e6f4eb'):(dk?'#2e0f0f':'#faeaea')),
-      borderColor:chV.map(v=>v>=0?'#1d6b3a':'#b02828'),
-      borderWidth:1.5,borderRadius:3
-    }]
-  },
-  options:{...base,indexAxis:'y',
-    plugins:{...base.plugins,tooltip:{callbacks:{label:c=>(c.raw>0?'+':'')+c.raw.toFixed(1)+'%'}}},
-    scales:{
-      x:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'%'},min:-105,max:65},
-      y:{grid:{display:false},ticks:{color:lc,font:{size:10}}}
-    }
-  }
-});
+new Chart(document.getElementById('c-annual'),{type:'bar',data:{labels:['2021','2022','2023','2024','2025'],datasets:[{label:'조은장터',data:[237,436,638,519,568],backgroundColor:'#1a4fa0',borderRadius:3,borderSkipped:false},{label:'케이푸드',data:[53,107,218,207,155],backgroundColor:'#1d6b3a',borderRadius:3,borderSkipped:false}]},options:{...base,plugins:{...base.plugins,tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}억`,footer:i=>'합계: '+(i.reduce((a,v)=>a+v.raw,0))+'억'}}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:tc,font:{size:11}}},y:{stacked:true,grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'억'}}}}});
 
-// 26년 1Q 표
-const rows=[
-  {ch:'조은장터',y25:219.1,y26:178.1,bold:true},
-  {ch:'  온라인',y25:175.8,y26:148.3,bold:false},
-  {ch:'  오프라인',y25:3.6,y26:4.8,bold:false},
-  {ch:'  관계사',y25:39.7,y26:24.9,bold:false},
-  {ch:'케이푸드',y25:66.9,y26:44.3,bold:true},
-  {ch:'  온라인',y25:38.3,y26:25.0,bold:false},
-  {ch:'  오프라인',y25:20.5,y26:19.0,bold:false},
-  {ch:'  관계사',y25:8.1,y26:0.3,bold:false},
-];
-const tb=document.getElementById('q1-tbody');
-rows.forEach(d=>{
-  const chg=((d.y26-d.y25)/d.y25*100).toFixed(1);
-  const up=parseFloat(chg)>=0;
-  tb.innerHTML+=`<tr>
-    <td style="${!d.bold?'color:var(--t2);font-weight:400;font-size:11px':''}">${d.ch}</td>
-    <td>${d.y25.toFixed(1)}억</td>
-    <td>${d.y26.toFixed(1)}억</td>
-    <td><span class="pill ${up?'pill-up':'pill-dn'}">${up?'+':''}${chg}%</span></td>
-  </tr>`;
-});
+const m25=[166,65,54,56,65,59,51,36,110,81,29],m24=[75,105,34,34,53,37,45,46,147,57,53];
+new Chart(document.getElementById('c-monthly'),{type:'bar',data:{labels:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월'],datasets:[{label:'2025년',data:m25,backgroundColor:m25.map((_,i)=>[0,8].includes(i)?'#1a4fa0':(dk?'#1e2e46':'#c8d8f0')),borderRadius:3,borderSkipped:false,order:1},{label:'2024년',data:m24,type:'line',borderColor:dk?'#5a5955':'#b0afaa',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,3],pointRadius:2,tension:0.3,order:0}]},options:{...base,plugins:{...base.plugins,tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}억`}}},scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:10},maxRotation:0}},y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'억'},min:0}}}});
 
-// 온라인 채널 바
-const chs=[
-  {name:'카카오',val:332,pct:70.1,c:'#1a4fa0'},
-  {name:'쿠팡/호남미트',val:88,pct:18.5,c:'#2a6fb8'},
-  {name:'스마트스토어',val:50,pct:10.6,c:'#4a90d9'},
-  {name:'기타',val:4,pct:0.8,c:'#b0c4de'},
-];
-const ob=document.getElementById('online-bars');
-chs.forEach(c=>{
-  ob.innerHTML+=`<div style="margin-bottom:12px">
-    <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-      <span style="font-size:12px;font-weight:600;color:var(--t1)">${c.name}</span>
-      <span style="font-size:12px;color:var(--t2)">${c.val}억 &nbsp;<strong style="color:var(--t1)">${c.pct}%</strong></span>
-    </div>
-    <div style="background:var(--card2);border-radius:4px;height:7px;overflow:hidden">
-      <div style="width:${c.pct}%;height:100%;background:${c.c};border-radius:4px"></div>
-    </div>
-  </div>`;
-});
+const chL=['스마트스토어\n(조은장터)','오프라인\n(조은장터)','카카오\n(조은장터)','오프라인\n(케이푸드)','온라인\n(케이푸드)','카카오\n(케이푸드)','관계사\n(조은장터)','관계사\n(케이푸드)'],chV=[52.5,34.3,-13.4,-7.5,-34.5,-34.5,-37.2,-96.1];
+new Chart(document.getElementById('c-channel'),{type:'bar',data:{labels:chL,datasets:[{data:chV,backgroundColor:chV.map(v=>v>=0?(dk?'#0d2e1a':'#e6f4eb'):(dk?'#2e0f0f':'#faeaea')),borderColor:chV.map(v=>v>=0?'#1d6b3a':'#b02828'),borderWidth:1.5,borderRadius:3}]},options:{...base,indexAxis:'y',plugins:{...base.plugins,tooltip:{callbacks:{label:c=>(c.raw>0?'+':'')+c.raw.toFixed(1)+'%'}}},scales:{x:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'%'},min:-105,max:65},y:{grid:{display:false},ticks:{color:lc,font:{size:10}}}}}});
+
+[{ch:'조은장터',y25:219.1,y26:178.1,b:true},{ch:'  온라인',y25:175.8,y26:148.3,b:false},{ch:'  오프라인',y25:3.6,y26:4.8,b:false},{ch:'  관계사',y25:39.7,y26:24.9,b:false},{ch:'케이푸드',y25:66.9,y26:44.3,b:true},{ch:'  온라인',y25:38.3,y26:25.0,b:false},{ch:'  오프라인',y25:20.5,y26:19.0,b:false},{ch:'  관계사',y25:8.1,y26:0.3,b:false}].forEach(d=>{const chg=((d.y26-d.y25)/d.y25*100).toFixed(1),up=parseFloat(chg)>=0;document.getElementById('q1-tbody').innerHTML+=`<tr><td style="${!d.b?'color:var(--t2);font-weight:400;font-size:11px':''}">${d.ch}</td><td>${d.y25.toFixed(1)}억</td><td>${d.y26.toFixed(1)}억</td><td><span class="pill ${up?'pill-up':'pill-dn'}">${up?'+':''}${chg}%</span></td></tr>`;});
+
+[{name:'카카오',val:332,pct:70.1,c:'#1a4fa0'},{name:'쿠팡/호남미트',val:88,pct:18.5,c:'#2a6fb8'},{name:'스마트스토어',val:50,pct:10.6,c:'#4a90d9'},{name:'기타',val:4,pct:0.8,c:'#b0c4de'}].forEach(c=>{document.getElementById('online-bars').innerHTML+=`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600;color:var(--t1)">${c.name}</span><span style="font-size:12px;color:var(--t2)">${c.val}억 &nbsp;<strong style="color:var(--t1)">${c.pct}%</strong></span></div><div style="background:var(--card2);border-radius:4px;height:7px;overflow:hidden"><div style="width:${c.pct}%;height:100%;background:${c.c};border-radius:4px"></div></div></div>`;});
+
+/* ══ 미트박스 정산 API ══ */
+const MAPI='https://web.meatbox.co.kr/accounting/sellerAdjustmentList.json';
+let mChart=null,mTimer=null;
+const wf=v=>v==null?'-':'₩'+Math.round(v).toLocaleString('ko-KR');
+
+function mSetS(s){const e=document.getElementById('m-status');if(s==='live'){e.textContent='실시간';e.className='spill live';}else if(s==='err'){e.textContent='오류';e.className='spill err';}else{e.textContent='대기중';e.className='spill';}}
+function mErr(msg){const e=document.getElementById('m-err');e.textContent=msg;e.style.display='block';}
+function mClrErr(){document.getElementById('m-err').style.display='none';}
+
+async function mFetch(){
+  const from=document.getElementById('m-from').value,to=document.getElementById('m-to').value;
+  const res=await fetch(MAPI,{method:'POST',headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},body:JSON.stringify({startYmd:from,endYmd:to,searchCond:'',searchText:''}),credentials:'include'});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  const j=await res.json();
+  if(!j.success) throw new Error(j.message||'API 오류');
+  return j.data.list||[];
+}
+
+function mRender(list){
+  const paid=list.filter(r=>r.adjustStatus==='지급완료'),pend=list.filter(r=>r.adjustStatus!=='지급완료');
+  const tS=list.reduce((s,r)=>s+(r.sellerProductAmt||0),0),tA=paid.reduce((s,r)=>s+(r.realAmt||0),0),tF=list.reduce((s,r)=>s+(r.serviceCharge||0),0),pA=pend.reduce((s,r)=>s+(r.sellerProductAmt||0),0);
+  document.getElementById('mk-total').textContent=wf(tS);
+  document.getElementById('mk-cnt').textContent=list.length+'건';
+  document.getElementById('mk-actual').textContent=wf(tA);
+  document.getElementById('mk-fee').textContent=wf(tF);
+  document.getElementById('mk-pend').textContent=wf(pA);
+  document.getElementById('mk-pend-d').textContent=pend.length?pend[0].adjustYmd:'없음';
+  document.getElementById('m-total-lbl').textContent='합계 '+wf(tS);
+  if(mChart) mChart.destroy();
+  mChart=new Chart(document.getElementById('m-chart'),{type:'bar',data:{labels:list.map(r=>r.adjustYmd?r.adjustYmd.slice(5):''),datasets:[{label:'매출',data:list.map(r=>r.sellerProductAmt||0),backgroundColor:dk?'#3a1a10':'#ffd5cc',borderColor:'#cc2200',borderWidth:1,borderRadius:3}]},options:{...base,scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:10},maxRotation:45,autoSkip:true,maxTicksLimit:10}},y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>'₩'+(v/10000).toFixed(0)+'만'}}}}});
+  document.getElementById('m-tbody').innerHTML=[...list].reverse().map(r=>{const ip=r.adjustStatus==='지급완료';return `<tr><td>${r.adjustYmd||'-'}</td><td>${wf(r.sellerProductAmt)}</td><td style="color:var(--red)">${r.serviceCharge?wf(r.serviceCharge):'-'}</td><td>${ip?wf(r.realAmt):'-'}</td><td style="text-align:left;color:${ip?'var(--green)':'var(--amber)'}">${r.adjustStatus||'-'}</td></tr>`;}).join('')+`<tr class="msum"><td>합계</td><td>${wf(tS)}</td><td style="color:var(--red)">${wf(tF)}</td><td>${wf(tA)}</td><td></td></tr>`;
+}
+
+async function mLoad(){
+  mClrErr();
+  try{const list=await mFetch();mRender(list);mSetS('live');document.getElementById('m-ts').textContent='갱신: '+new Date().toLocaleTimeString('ko-KR');}
+  catch(e){mSetS('err');mErr('오류: '+e.message+' — 미트박스에 로그인된 같은 브라우저에서 열어주세요.');}
+}
+function mStart(){document.getElementById('m-go').style.display='none';document.getElementById('m-stop').style.display='';mLoad();const iv=parseInt(document.getElementById('m-iv').value);if(iv>0)mTimer=setInterval(mLoad,iv);}
+function mStop(){if(mTimer){clearInterval(mTimer);mTimer=null;}document.getElementById('m-stop').style.display='none';document.getElementById('m-go').style.display='';mSetS('idle');}
 </script>
 </body>
 </html>
